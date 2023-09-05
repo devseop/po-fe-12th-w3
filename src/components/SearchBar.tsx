@@ -1,9 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { styled } from 'styled-components';
 import { RiSearchLine } from 'react-icons/ri';
 
 import { useSearchContext } from '../context/searchContext';
-import { fetchSickList } from '../api/api';
 import DeleteButton from './DeleteButton';
 
 const SearchBar = () => {
@@ -14,27 +13,6 @@ const SearchBar = () => {
     console.log('query: ', e.target.value);
     dispatch({ type: 'SET_QUERY', payload: e.target.value });
   };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        dispatch({ type: 'SET_LOADING', payload: true });
-        const sickList = await fetchSickList();
-        dispatch({ type: 'SET_SICK_LIST', payload: sickList });
-      } catch (error) {
-        dispatch({ type: 'SET_ERROR', payload: error as string });
-      } finally {
-        dispatch({ type: 'SET_LOADING', payload: false });
-      }
-    };
-
-    if (query) {
-      fetchData();
-    } else {
-      dispatch({ type: 'SET_SICK_LIST', payload: [] });
-      dispatch({ type: 'SET_ERROR', payload: null });
-    }
-  }, [query, dispatch]);
 
   return (
     <>

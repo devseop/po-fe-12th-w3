@@ -1,4 +1,5 @@
-import React, { Dispatch, createContext, useContext, useReducer } from 'react';
+import React, { Dispatch, createContext, useContext, useReducer, useEffect } from 'react';
+import { fetchSickList } from '../api/api';
 import { ISearchState, ISick } from '../types/type';
 
 type SearchAction =
@@ -35,6 +36,27 @@ export const SearchProvider = ({ children }: { children: React.ReactNode }) => {
     isLoading: false,
     error: null,
   });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        dispatch({ type: 'SET_LOADING', payload: true });
+        const sickList = await fetchSickList();
+        dispatch({ type: 'SET_SICK_LIST', payload: sickList });
+      } catch (error) {
+        dispatch({ type: 'SET_ERROR', payload: error as string });
+      } finally {
+        dispatch({ type: 'SET_LOADING', payload: false });
+      }
+    };
+
+    if (state.query) {
+      fetchData();
+    } else {
+      dispatch({ type: 'SET_SICK_LIST', payload: [] });
+      dispatch({ type: 'SET_ERROR', payload: null });
+    }
+  }, [state.query]);
 
   return <searchContext.Provider value={{ state, dispatch }}>{children}</searchContext.Provider>;
 };
