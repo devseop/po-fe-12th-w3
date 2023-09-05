@@ -9,6 +9,6 @@ const api = axios.create({
 export const fetchSickList = async (): Promise<ISick[]> => {
   const res = await api.get('/sick');
   // console.log(`✅ data's fetched!`);
-  console.log(res.data.slice(0, 10));
-  return res.data.slice(0, 10);
+  console.info('🆘 calling api');
+  return res.data.slice(0, 20);
 };
