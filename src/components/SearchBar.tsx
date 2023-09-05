@@ -9,7 +9,7 @@ const SearchBar = () => {
   const { state, dispatch } = useSearchContext();
   const { query } = state;
 
-  const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const inputKeywordHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log('query: ', e.target.value);
     dispatch({ type: 'SET_QUERY', payload: e.target.value });
   };
@@ -43,7 +43,7 @@ const SearchBar = () => {
           type='text'
           placeholder='질환명을 입력해 주세요.'
           value={query}
-          onChange={inputChangeHandler}
+          onChange={inputKeywordHandler}
           autoFocus
         />
       </SearchBarContainer>
