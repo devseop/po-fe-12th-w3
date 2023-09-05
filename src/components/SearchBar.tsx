@@ -4,6 +4,7 @@ import { RiSearchLine } from 'react-icons/ri';
 
 import { useSearchContext } from '../context/searchContext';
 import { fetchSickList } from '../api/api';
+import DeleteButton from './DeleteButton';
 
 const SearchBar = () => {
   const { state, dispatch } = useSearchContext();
@@ -46,6 +47,7 @@ const SearchBar = () => {
           onChange={inputKeywordHandler}
           autoFocus
         />
+        {query && <DeleteButton />}
       </SearchBarContainer>
     </>
   );
