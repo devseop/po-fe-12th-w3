@@ -2,6 +2,7 @@ import React from 'react';
 import { useSearchContext } from '../context/searchContext';
 import { styled } from 'styled-components';
 import { RiSearchLine } from 'react-icons/ri';
+import HighlitedKeyword from './HighlitedKeyword';
 
 const SearchKeywordList = () => {
   const { state } = useSearchContext();
@@ -18,8 +19,12 @@ const SearchKeywordList = () => {
         {query && <span>추천 검색어</span>}
         {sickList.map((sick) => (
           <li key={sick.sickCd}>
-            <RiSearchLine size={20} color='rgba(0,0,0,0.4)' />
-            {sick.sickNm}
+            <RiSearchLine size={20} color='rgba(0,0,0,0.4)' style={{ marginRight: '8px' }} />
+            {sick.sickNm.includes(query) ? (
+              <HighlitedKeyword parts={sick.sickNm.split(query)} query={query} />
+            ) : (
+              <p>{sick.sickNm}</p>
+            )}
           </li>
         ))}
       </SuggestKeywordContainer>
@@ -64,10 +69,9 @@ const SuggestKeywordContainer = styled.ul`
 
   li {
     display: flex;
-    gap: 8px;
     align-items: end;
     padding: 10px 16px;
-    font-weight: 500;
+    font-weight: 400;
     cursor: pointer;
 
     &:hover {
@@ -75,4 +79,5 @@ const SuggestKeywordContainer = styled.ul`
     }
   }
 `;
+
 export default SearchKeywordList;
