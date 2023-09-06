@@ -14,11 +14,7 @@ const SearchSection = () => {
   return (
     <Container>
       <Header>{headerText}</Header>
-      <SearchBar
-        isFocused={isSearchBarFocused}
-        onFocus={searchBarFocusHandler}
-        onBlur={searchBarFocusHandler}
-      />
+      <SearchBar onFocus={searchBarFocusHandler} onBlur={searchBarFocusHandler} />
       <SearchKeywordList isSearchBarFocused={isSearchBarFocused} />
     </Container>
   );

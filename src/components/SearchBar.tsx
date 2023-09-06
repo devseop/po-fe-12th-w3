@@ -7,12 +7,11 @@ import DeleteButton from './DeleteButton';
 import { useInput } from '../hooks/useInput';
 
 interface ISearchBar {
-  isFocused: boolean;
   onFocus: () => void;
   onBlur: () => void;
 }
 
-const SearchBar = ({ isFocused, onFocus, onBlur }: ISearchBar) => {
+const SearchBar = ({ onFocus, onBlur }: ISearchBar) => {
   const { state } = useSearchContext();
   const { query } = state;
   const { useInputHandler } = useInput();
