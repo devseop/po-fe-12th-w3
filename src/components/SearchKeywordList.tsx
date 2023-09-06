@@ -4,28 +4,24 @@ import styled from '@emotion/styled';
 import { RiSearchLine } from 'react-icons/ri';
 import HighlitedKeyword from './HighlitedKeyword';
 
-interface ISearchKeywordList {
-  isSearchBarFocused: boolean;
-}
-
-const SearchKeywordList = ({ isSearchBarFocused }: ISearchKeywordList) => {
+const SearchKeywordList = () => {
   const { state } = useSearchContext();
   const { query, sickList } = state;
 
   return (
     <>
-      {isSearchBarFocused && (
+      {query && (
         <KeywordContainer>
           <PresentKeywordContainer isQuery={query}>
             <RiSearchLine size={20} color='rgba(0,0,0,0.4)' />
-            <PresentKeyword isQuery={query}>{query ? query : '검색어 없음'}</PresentKeyword>
+            <PresentKeyword isQuery={query}>{query ? query : '검색 질환명'}</PresentKeyword>
           </PresentKeywordContainer>
 
           {query && (
             <SuggestKeywordContainer>
-              {sickList.length > 0 && <SuggestHeader>추천 검색어</SuggestHeader>}
+              {sickList && sickList.length > 0 && <SuggestHeader>추천 검색어</SuggestHeader>}
               {sickList.map((sick) => (
-                <li key={sick.sickCd}>
+                <li key={sick.sickCd} tabIndex={0}>
                   <RiSearchLine size={20} color='rgba(0,0,0,0.4)' style={{ marginRight: '8px' }} />
                   {sick.sickNm.includes(query) ? (
                     <HighlitedKeyword parts={sick.sickNm.split(query)} query={query} />
@@ -46,6 +42,8 @@ const KeywordContainer = styled.section`
   text-align: left;
   width: 100%;
   max-width: 480px;
+  max-height: 460px;
+  overflow-y: scroll;
   padding: 10px 0 14px;
   margin: 16px auto 0;
 
@@ -77,10 +75,15 @@ const SuggestKeywordContainer = styled.ul`
 
   li {
     display: flex;
-    align-items: end;
+    align-items: center;
     padding: 10px 16px;
     font-weight: 400;
     cursor: pointer;
+
+    &:focus {
+      outline: none;
+      background-color: rgba(49, 130, 246, 0.1);
+    }
 
     &:hover {
       background-color: rgba(49, 130, 246, 0.1);

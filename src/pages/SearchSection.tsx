@@ -1,21 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
 import SearchBar from '../components/SearchBar';
 import styled from '@emotion/styled';
 import SearchKeywordList from '../components/SearchKeywordList';
 
 const SearchSection = () => {
   const headerText = '국내 모든 임상시험 검색하고\n온라인으로 참여하기';
-  const [isSearchBarFocused, setIsSearchBarFocused] = useState<boolean>(false);
-
-  const searchBarFocusHandler = () => {
-    setIsSearchBarFocused((prev) => !prev);
-  };
 
   return (
     <Container>
       <Header>{headerText}</Header>
-      <SearchBar onFocus={searchBarFocusHandler} onBlur={searchBarFocusHandler} />
-      <SearchKeywordList isSearchBarFocused={isSearchBarFocused} />
+      <SearchBar />
+      <SearchKeywordList />
     </Container>
   );
 };
