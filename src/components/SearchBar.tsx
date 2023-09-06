@@ -1,17 +1,12 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { RiSearchLine } from 'react-icons/ri';
+import DeleteButton from './DeleteButton';
 
 import { useSearchContext } from '../context/searchContext';
-import DeleteButton from './DeleteButton';
 import { useInput } from '../hooks/useInput';
 
-interface ISearchBar {
-  onFocus: () => void;
-  onBlur: () => void;
-}
-
-const SearchBar = ({ onFocus, onBlur }: ISearchBar) => {
+const SearchBar = () => {
   const { state } = useSearchContext();
   const { query } = state;
   const { useInputHandler } = useInput();
@@ -29,8 +24,6 @@ const SearchBar = ({ onFocus, onBlur }: ISearchBar) => {
           placeholder='질환명을 입력해 주세요.'
           value={query}
           onChange={inputKeywordHandler}
-          onFocus={onFocus}
-          onBlur={onBlur}
         />
         {query && <DeleteButton />}
       </SearchBarContainer>
