@@ -38,7 +38,7 @@ export const SearchProvider = ({ children }: { children: React.ReactNode }) => {
     error: null,
   });
 
-  const debouncedQuery = useDebounce(state.query, 500);
+  const debouncedQuery = useDebounce(state.query);
 
   useEffect(() => {
     const fetchData = async () => {
