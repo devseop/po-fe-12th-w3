@@ -22,7 +22,7 @@ export const fetchSickList = async (query: string): Promise<ISick[]> => {
   const cacheKey = generateCacheKey(`/${API_URL.route}`, { q: encodedQuery });
 
   /** 캐싱된 데이터를 가져오기 */
-  const cachedData = getCache(cacheKey);
+  const cachedData = await getCache(cacheKey);
 
   if (cachedData) {
     console.info('📦 Using cached data');
@@ -33,7 +33,7 @@ export const fetchSickList = async (query: string): Promise<ISick[]> => {
     const res = await api.get(`/${API_URL.route}?q=${encodedQuery}`);
     console.info('✅ Calling API');
 
-    const data = res.data;
+    const data = res.data.slice(0, 10);
     setCacheWithExpiration(cacheKey, data, 10); // 유효시간 30분 제한
 
     return data;

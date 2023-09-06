@@ -14,35 +14,55 @@ export const generateCacheKey = (url: string, params: IParams = {}) => {
 };
 
 /** 로컬 캐시에 데이터와 만료 시간을 저장하는 함수 */
-export const setCacheWithExpiration = (key: string, data: ISick[], expirationMinutes: number) => {
+export const setCacheWithExpiration = async (
+  key: string,
+  data: ISick[],
+  expirationMinutes: number,
+) => {
   const currentTime = new Date().getTime();
   /** 현재 시간에 만료 시간을 더하여 유효 시간을 설정 */
   const expirationTime = currentTime + expirationMinutes * 60 * 1000;
-  const cacheData = {
-    data,
-    expirationTime,
-  };
-  localStorage.setItem(key, JSON.stringify(cacheData));
+
+  try {
+    const cache = await caches.open('sick-cache');
+    const cacheData = {
+      data,
+      expirationTime,
+    };
+    await cache.put(key, new Response(JSON.stringify(cacheData)));
+  } catch (err) {
+    console.error(err);
+  }
 };
 
 /** 로컬 캐시에서 데이터를 가져오는 함수 */
-export const getCache = (key: string) => {
-  const cachedData = localStorage.getItem(key);
+export const getCache = async (key: string) => {
+  try {
+    const cache = await caches.open('sick-cache');
+    const res = await caches.match(key);
 
-  if (cachedData) {
-    const cacheData = JSON.parse(cachedData);
+    if (res) {
+      const cacheData = await res.json();
 
-    // 만료 시간을 확인하여 캐시가 만료되었는지 검사
-    if (cacheData.expirationTime && new Date().getTime() > cacheData.expirationTime) {
-      localStorage.removeItem(key); // 캐시가 만료되었으면 삭제
-      return null;
+      if (cacheData.expirationTime && new Date().getTime() > cacheData.expirationTime) {
+        await cache.delete(key); // 캐시가 만료되었으면 삭제
+        return null;
+      }
+      return cacheData.data;
     }
-    return cacheData.data;
+    return null;
+  } catch (err) {
+    console.error(err);
+    return null;
   }
-  return null;
 };
 
 /** 로컬 캐시에서 데이터를 삭제하는 함수 */
-export const removeCache = (key: string) => {
-  localStorage.removeItem(key);
+export const removeCache = async (key: string) => {
+  try {
+    const cache = await caches.open('my-cache');
+    await cache.delete(key);
+  } catch (error) {
+    console.error('Error deleting cached data:', error);
+  }
 };
