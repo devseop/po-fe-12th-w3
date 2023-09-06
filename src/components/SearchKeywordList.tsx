@@ -23,7 +23,7 @@ const SearchKeywordList = ({ isSearchBarFocused }: ISearchKeywordList) => {
 
           {query && (
             <SuggestKeywordContainer>
-              <SuggestHeader>추천 검색어</SuggestHeader>
+              {sickList.length > 0 && <SuggestHeader>추천 검색어</SuggestHeader>}
               {sickList.map((sick) => (
                 <li key={sick.sickCd}>
                   <RiSearchLine size={20} color='rgba(0,0,0,0.4)' style={{ marginRight: '8px' }} />
