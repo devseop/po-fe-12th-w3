@@ -1,5 +1,5 @@
 import React from 'react';
-import { styled } from 'styled-components';
+import styled from '@emotion/styled';
 import { RiSearchLine } from 'react-icons/ri';
 
 import { useSearchContext } from '../context/searchContext';
@@ -24,7 +24,6 @@ const SearchBar = () => {
           placeholder='질환명을 입력해 주세요.'
           value={query}
           onChange={inputKeywordHandler}
-          autoFocus
         />
         {query && <DeleteButton />}
       </SearchBarContainer>

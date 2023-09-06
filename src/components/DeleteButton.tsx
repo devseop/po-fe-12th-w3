@@ -1,6 +1,6 @@
 import React from 'react';
 import { RiCloseCircleFill } from 'react-icons/ri';
-import { styled } from 'styled-components';
+import styled from '@emotion/styled';
 import { useInput } from '../hooks/useInput';
 
 const DeleteButton = () => {

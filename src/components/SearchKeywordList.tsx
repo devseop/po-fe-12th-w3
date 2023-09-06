@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSearchContext } from '../context/searchContext';
-import { styled } from 'styled-components';
+import styled from '@emotion/styled';
 import { RiSearchLine } from 'react-icons/ri';
 import HighlitedKeyword from './HighlitedKeyword';
 
@@ -10,9 +10,9 @@ const SearchKeywordList = () => {
 
   return (
     <KeywordContainer>
-      <PresentKeywordContainer>
+      <PresentKeywordContainer isQuery={query}>
         <RiSearchLine size={20} color='rgba(0,0,0,0.4)' />
-        <span>{query}</span>
+        <PresentKeyword isQuery={query}>{query ? query : '검색어 없음'}</PresentKeyword>
       </PresentKeywordContainer>
 
       <SuggestKeywordContainer>
@@ -44,17 +44,21 @@ const KeywordContainer = styled.section`
   box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.1);
 `;
 
-const PresentKeywordContainer = styled.article`
+const PresentKeywordContainer = styled.article<{ isQuery: string }>`
   display: flex;
   gap: 8px;
   align-items: end;
-  font-weight: 700;
   padding: 10px 16px;
-  cursor: pointer;
+  cursor: ${(props) => (props.isQuery ? 'pointer' : 'not-allowed')};
 
   &:hover {
-    background-color: aliceblue;
+    background-color: ${(props) => (props.isQuery ? 'aliceblue' : 'transparent')};
   }
+`;
+
+const PresentKeyword = styled.span<{ isQuery: string }>`
+  color: ${(props) => (props.isQuery ? '#000' : 'rgba(0,0,0,0.5)')};
+  font-weight: ${(props) => (props.isQuery ? '700' : '400')};
 `;
 
 const SuggestKeywordContainer = styled.ul`
