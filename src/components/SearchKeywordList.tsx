@@ -6,7 +6,7 @@ import HighlitedKeyword from './HighlitedKeyword';
 
 const SearchKeywordList = () => {
   const { state } = useSearchContext();
-  const { query, sickList } = state;
+  const { query, sickList, isLoading } = state;
 
   return (
     <>
@@ -14,22 +14,32 @@ const SearchKeywordList = () => {
         <KeywordContainer>
           <PresentKeywordContainer isQuery={query}>
             <RiSearchLine size={20} color='rgba(0,0,0,0.4)' />
-            <PresentKeyword isQuery={query}>{query ? query : '검색 질환명'}</PresentKeyword>
+            <PresentKeyword isQuery={query}>{query}</PresentKeyword>
           </PresentKeywordContainer>
 
           {query && (
             <SuggestKeywordContainer>
               {sickList && sickList.length > 0 && <SuggestHeader>추천 검색어</SuggestHeader>}
-              {sickList.map((sick) => (
-                <li key={sick.sickCd} tabIndex={0}>
-                  <RiSearchLine size={20} color='rgba(0,0,0,0.4)' style={{ marginRight: '8px' }} />
-                  {sick.sickNm.includes(query) ? (
-                    <HighlitedKeyword parts={sick.sickNm.split(query)} query={query} />
-                  ) : (
-                    <p>{sick.sickNm}</p>
-                  )}
-                </li>
-              ))}
+              {isLoading ? (
+                <LoadingText>검색 중...</LoadingText>
+              ) : sickList[0] === undefined ? (
+                <NoResult>검색 결과가 없습니다. 다른 질환으로 다시 입력해 보세요.</NoResult>
+              ) : (
+                sickList.map((sick) => (
+                  <li key={sick.sickCd} tabIndex={0}>
+                    <RiSearchLine
+                      size={20}
+                      color='rgba(0,0,0,0.4)'
+                      style={{ marginRight: '8px' }}
+                    />
+                    {sick.sickNm.includes(query) ? (
+                      <HighlitedKeyword parts={sick.sickNm.split(query)} query={query} />
+                    ) : (
+                      <p>{sick.sickNm}</p>
+                    )}
+                  </li>
+                ))
+              )}
             </SuggestKeywordContainer>
           )}
         </KeywordContainer>
@@ -93,6 +103,20 @@ const SuggestKeywordContainer = styled.ul`
 
 const SuggestHeader = styled.p`
   font-size: 14px;
+  color: rgba(0, 0, 0, 0.4);
+  margin: 8px 16px 2px;
+`;
+
+const LoadingText = styled.p`
+  font-size: 16px;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 1);
+  margin: 8px 16px 2px;
+`;
+
+const NoResult = styled.p`
+  font-size: 16px;
+  font-weight: 500;
   color: rgba(0, 0, 0, 0.4);
   margin: 8px 16px 2px;
 `;
