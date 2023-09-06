@@ -6,9 +6,9 @@ const api = axios.create({
   baseURL: API_BASE_URL,
 });
 
-export const fetchSickList = async (): Promise<ISick[]> => {
-  const res = await api.get('/sick');
-  // console.log(`✅ data's fetched!`);
+export const fetchSickList = async (query: string): Promise<ISick[]> => {
+  const encodedQuery = encodeURIComponent(query);
+  const res = await api.get(`/sick?q=${encodedQuery}`);
   console.info('🆘 calling api');
-  return res.data.slice(0, 20);
+  return res.data;
 };
