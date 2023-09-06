@@ -9,10 +9,10 @@ import { useInput } from '../hooks/useInput';
 const SearchBar = () => {
   const { state } = useSearchContext();
   const { query } = state;
-  const { setInputKeyword } = useInput();
+  const { useInputHandler } = useInput();
 
   const inputKeywordHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputKeyword(e.target.value);
+    useInputHandler(e.target.value);
   };
 
   return (

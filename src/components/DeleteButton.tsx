@@ -4,10 +4,14 @@ import { styled } from 'styled-components';
 import { useInput } from '../hooks/useInput';
 
 const DeleteButton = () => {
-  const { deleteKeyword } = useInput();
+  const { useInputHandler } = useInput();
+
+  const deleteKeywordHandler = () => {
+    useInputHandler('');
+  };
 
   return (
-    <Button onClick={deleteKeyword}>
+    <Button onClick={deleteKeywordHandler}>
       <RiCloseCircleFill size={20} color='rgba(0,0,0,0.2)' />
     </Button>
   );
