@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { API_URL } from '../constant/urls';
+import { API_URL } from '../constants/constant';
 import { ISick } from '../types/type';
 
 const api = axios.create({
