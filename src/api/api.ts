@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { API_URL } from '../constants/constant';
 import { ISick } from '../types/type';
-import { generateCacheKey, getCache, setCacheWithExpiration } from '../utils/cacheService';
+import { generateCacheKey, getCache, setCacheWithExpiration } from '../utils/cache';
 
 const api = axios.create({
   baseURL: API_URL.host,
@@ -18,11 +18,12 @@ const api = axios.create({
 /** after local cache */
 export const fetchSickList = async (query: string): Promise<ISick[]> => {
   const encodedQuery = encodeURIComponent(query);
+  const cacheName = `${query}_cache`;
   /** 캐시 키 생성 */
   const cacheKey = generateCacheKey(`/${API_URL.route}`, { q: encodedQuery });
 
   /** 캐싱된 데이터를 가져오기 */
-  const cachedData = await getCache(cacheKey);
+  const cachedData = await getCache(cacheName, cacheKey);
 
   if (cachedData) {
     console.info('📦 Using cached data');
@@ -34,7 +35,7 @@ export const fetchSickList = async (query: string): Promise<ISick[]> => {
     console.info('✅ Calling API');
 
     const data = res.data.slice(0, 10);
-    setCacheWithExpiration(cacheKey, data, 10); // 유효시간 30분 제한
+    setCacheWithExpiration(cacheName, cacheKey, data, 10); // 유효시간 30분 제한
 
     return data;
   } catch (error) {

@@ -15,6 +15,7 @@ export const generateCacheKey = (url: string, params: IParams = {}) => {
 
 /** 로컬 캐시에 데이터와 만료 시간을 저장하는 함수 */
 export const setCacheWithExpiration = async (
+  cacheName: string,
   key: string,
   data: ISick[],
   expirationMinutes: number,
@@ -24,7 +25,7 @@ export const setCacheWithExpiration = async (
   const expirationTime = currentTime + expirationMinutes * 60 * 1000;
 
   try {
-    const cache = await caches.open('sick-cache');
+    const cache = await caches.open(cacheName);
     const cacheData = {
       data,
       expirationTime,
@@ -36,9 +37,9 @@ export const setCacheWithExpiration = async (
 };
 
 /** 로컬 캐시에서 데이터를 가져오는 함수 */
-export const getCache = async (key: string) => {
+export const getCache = async (cacheName: string, key: string) => {
   try {
-    const cache = await caches.open('sick-cache');
+    const cache = await caches.open(cacheName);
     const res = await caches.match(key);
 
     if (res) {
