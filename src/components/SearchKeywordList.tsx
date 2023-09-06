@@ -4,31 +4,41 @@ import styled from '@emotion/styled';
 import { RiSearchLine } from 'react-icons/ri';
 import HighlitedKeyword from './HighlitedKeyword';
 
-const SearchKeywordList = () => {
+interface ISearchKeywordList {
+  isSearchBarFocused: boolean;
+}
+
+const SearchKeywordList = ({ isSearchBarFocused }: ISearchKeywordList) => {
   const { state } = useSearchContext();
   const { query, sickList } = state;
 
   return (
-    <KeywordContainer>
-      <PresentKeywordContainer isQuery={query}>
-        <RiSearchLine size={20} color='rgba(0,0,0,0.4)' />
-        <PresentKeyword isQuery={query}>{query ? query : '검색어 없음'}</PresentKeyword>
-      </PresentKeywordContainer>
+    <>
+      {isSearchBarFocused && (
+        <KeywordContainer>
+          <PresentKeywordContainer isQuery={query}>
+            <RiSearchLine size={20} color='rgba(0,0,0,0.4)' />
+            <PresentKeyword isQuery={query}>{query ? query : '검색어 없음'}</PresentKeyword>
+          </PresentKeywordContainer>
 
-      <SuggestKeywordContainer>
-        {query && <SuggestHeader>추천 검색어</SuggestHeader>}
-        {sickList.map((sick) => (
-          <li key={sick.sickCd}>
-            <RiSearchLine size={20} color='rgba(0,0,0,0.4)' style={{ marginRight: '8px' }} />
-            {sick.sickNm.includes(query) ? (
-              <HighlitedKeyword parts={sick.sickNm.split(query)} query={query} />
-            ) : (
-              <p>{sick.sickNm}</p>
-            )}
-          </li>
-        ))}
-      </SuggestKeywordContainer>
-    </KeywordContainer>
+          {query && (
+            <SuggestKeywordContainer>
+              <SuggestHeader>추천 검색어</SuggestHeader>
+              {sickList.map((sick) => (
+                <li key={sick.sickCd}>
+                  <RiSearchLine size={20} color='rgba(0,0,0,0.4)' style={{ marginRight: '8px' }} />
+                  {sick.sickNm.includes(query) ? (
+                    <HighlitedKeyword parts={sick.sickNm.split(query)} query={query} />
+                  ) : (
+                    <p>{sick.sickNm}</p>
+                  )}
+                </li>
+              ))}
+            </SuggestKeywordContainer>
+          )}
+        </KeywordContainer>
+      )}
+    </>
   );
 };
 

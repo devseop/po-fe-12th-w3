@@ -6,7 +6,13 @@ import { useSearchContext } from '../context/searchContext';
 import DeleteButton from './DeleteButton';
 import { useInput } from '../hooks/useInput';
 
-const SearchBar = () => {
+interface ISearchBar {
+  isFocused: boolean;
+  onFocus: () => void;
+  onBlur: () => void;
+}
+
+const SearchBar = ({ isFocused, onFocus, onBlur }: ISearchBar) => {
   const { state } = useSearchContext();
   const { query } = state;
   const { useInputHandler } = useInput();
@@ -24,6 +30,8 @@ const SearchBar = () => {
           placeholder='질환명을 입력해 주세요.'
           value={query}
           onChange={inputKeywordHandler}
+          onFocus={onFocus}
+          onBlur={onBlur}
         />
         {query && <DeleteButton />}
       </SearchBarContainer>
