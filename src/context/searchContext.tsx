@@ -1,6 +1,7 @@
 import React, { Dispatch, createContext, useContext, useReducer, useEffect } from 'react';
 import { fetchSickList } from '../api/api';
 import { ISearchState, ISick } from '../types/type';
+import { useDebounce } from '../hooks/useDebounce';
 
 type SearchAction =
   | { type: 'SET_QUERY'; payload: string }
@@ -37,11 +38,13 @@ export const SearchProvider = ({ children }: { children: React.ReactNode }) => {
     error: null,
   });
 
+  const debouncedQuery = useDebounce(state.query, 500);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         dispatch({ type: 'SET_LOADING', payload: true });
-        const sickList = await fetchSickList();
+        const sickList = await fetchSickList(debouncedQuery);
         dispatch({ type: 'SET_SICK_LIST', payload: sickList });
       } catch (error) {
         dispatch({ type: 'SET_ERROR', payload: error as string });
@@ -50,13 +53,13 @@ export const SearchProvider = ({ children }: { children: React.ReactNode }) => {
       }
     };
 
-    if (state.query) {
+    if (debouncedQuery) {
       fetchData();
     } else {
       dispatch({ type: 'SET_SICK_LIST', payload: [] });
       dispatch({ type: 'SET_ERROR', payload: null });
     }
-  }, [state.query]);
+  }, [debouncedQuery]);
 
   return <searchContext.Provider value={{ state, dispatch }}>{children}</searchContext.Provider>;
 };
@@ -64,7 +67,7 @@ export const SearchProvider = ({ children }: { children: React.ReactNode }) => {
 export const useSearchContext = () => {
   const context = useContext(searchContext);
   if (context === undefined) {
-    throw new Error('useIssueContext must be used within an IssueProvider');
+    throw new Error('useSearchContext must be used within a SearchProvider');
   }
 
   return context;
