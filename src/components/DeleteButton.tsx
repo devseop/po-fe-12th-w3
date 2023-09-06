@@ -1,17 +1,13 @@
 import React from 'react';
 import { RiCloseCircleFill } from 'react-icons/ri';
-import { useSearchContext } from '../context/searchContext';
 import { styled } from 'styled-components';
+import { useInput } from '../hooks/useInput';
 
 const DeleteButton = () => {
-  const { dispatch } = useSearchContext();
-
-  const deleteKeywordHandler = () => {
-    dispatch({ type: 'SET_QUERY', payload: '' });
-  };
+  const { deleteKeyword } = useInput();
 
   return (
-    <Button onClick={deleteKeywordHandler}>
+    <Button onClick={deleteKeyword}>
       <RiCloseCircleFill size={20} color='rgba(0,0,0,0.2)' />
     </Button>
   );

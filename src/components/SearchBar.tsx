@@ -4,14 +4,15 @@ import { RiSearchLine } from 'react-icons/ri';
 
 import { useSearchContext } from '../context/searchContext';
 import DeleteButton from './DeleteButton';
+import { useInput } from '../hooks/useInput';
 
 const SearchBar = () => {
-  const { state, dispatch } = useSearchContext();
+  const { state } = useSearchContext();
   const { query } = state;
+  const { setInputKeyword } = useInput();
 
   const inputKeywordHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log('query: ', e.target.value);
-    dispatch({ type: 'SET_QUERY', payload: e.target.value });
+    setInputKeyword(e.target.value);
   };
 
   return (
