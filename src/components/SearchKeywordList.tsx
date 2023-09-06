@@ -12,11 +12,6 @@ const SearchKeywordList = () => {
     <>
       {query && (
         <KeywordContainer>
-          <PresentKeywordContainer isQuery={query}>
-            <RiSearchLine size={20} color='rgba(0,0,0,0.4)' />
-            <PresentKeyword isQuery={query}>{query}</PresentKeyword>
-          </PresentKeywordContainer>
-
           {query && (
             <SuggestKeywordContainer>
               {sickList && sickList.length > 0 && <SuggestHeader>추천 검색어</SuggestHeader>}
@@ -60,23 +55,6 @@ const KeywordContainer = styled.section`
   background-color: #fff;
   border-radius: 12px;
   box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.1);
-`;
-
-const PresentKeywordContainer = styled.article<{ isQuery: string }>`
-  display: flex;
-  gap: 8px;
-  align-items: end;
-  padding: 10px 16px;
-  cursor: ${(props) => (props.isQuery ? 'pointer' : 'not-allowed')};
-
-  &:hover {
-    background-color: ${(props) => (props.isQuery ? 'aliceblue' : 'transparent')};
-  }
-`;
-
-const PresentKeyword = styled.span<{ isQuery: string }>`
-  color: ${(props) => (props.isQuery ? '#000' : 'rgba(0,0,0,0.5)')};
-  font-weight: ${(props) => (props.isQuery ? '700' : '400')};
 `;
 
 const SuggestKeywordContainer = styled.ul`
