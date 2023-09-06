@@ -16,7 +16,7 @@ const SearchKeywordList = () => {
       </PresentKeywordContainer>
 
       <SuggestKeywordContainer>
-        {query && <span>추천 검색어</span>}
+        {query && <SuggestHeader>추천 검색어</SuggestHeader>}
         {sickList.map((sick) => (
           <li key={sick.sickCd}>
             <RiSearchLine size={20} color='rgba(0,0,0,0.4)' style={{ marginRight: '8px' }} />
@@ -61,12 +61,6 @@ const SuggestKeywordContainer = styled.ul`
   display: flex;
   flex-direction: column;
 
-  span {
-    font-size: 14px;
-    color: rgba(0, 0, 0, 0.4);
-    margin: 8px 16px 2px;
-  }
-
   li {
     display: flex;
     align-items: end;
@@ -78,6 +72,12 @@ const SuggestKeywordContainer = styled.ul`
       background-color: rgba(49, 130, 246, 0.1);
     }
   }
+`;
+
+const SuggestHeader = styled.p`
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.4);
+  margin: 8px 16px 2px;
 `;
 
 export default SearchKeywordList;

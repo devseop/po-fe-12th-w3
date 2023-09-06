@@ -26,7 +26,7 @@ const HighlitedKeyword = ({ parts, query }: IHighlitedKeyword) => {
   );
 };
 
-const HighlightedText = styled.p`
+const HighlightedText = styled.span`
   display: inline-block;
   font-weight: 700;
 `;
