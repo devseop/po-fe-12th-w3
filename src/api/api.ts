@@ -34,7 +34,7 @@ export const fetchSickList = async (query: string): Promise<ISick[]> => {
     const res = await api.get(`/${API_URL.route}?q=${encodedQuery}`);
     console.info('✅ Calling API');
 
-    const data = res.data.slice(0, 10);
+    const data = res.data;
     setCacheWithExpiration(cacheName, cacheKey, data, 10); // 유효시간 30분 제한
 
     return data;
