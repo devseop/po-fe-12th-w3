@@ -36,7 +36,6 @@ export const fetchSickList = async (query: string): Promise<ISick[]> => {
 
     const data = res.data;
     setCacheWithExpiration(cacheName, cacheKey, data);
-    console.log(data);
     return data;
   } catch (error) {
     console.error('❌ API request failed', error);
