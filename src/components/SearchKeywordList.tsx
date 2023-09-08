@@ -3,7 +3,6 @@ import { useSearchContext } from '../context/searchContext';
 import styled from '@emotion/styled';
 import { RiSearchLine } from 'react-icons/ri';
 import HighlitedKeyword from './HighlitedKeyword';
-import { ISick } from '../types/type';
 
 interface ISearchKeywordListProps {
   selectedIndex: number;
@@ -39,7 +38,8 @@ const SearchKeywordList = (props: ISearchKeywordListProps) => {
               ) : sickList[0] === undefined ? (
                 <NoResult>검색 결과가 없습니다. 다른 질환으로 다시 입력해 보세요.</NoResult>
               ) : (
-                sickList.map((sick: ISick, index: number) => (
+                sickList &&
+                sickList.map((sick, index) => (
                   <li
                     key={sick.sickCd}
                     ref={index === selectedIndex ? liRef : null}
