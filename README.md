@@ -10,15 +10,15 @@
 - 배포 링크: [Search sick page (https://devseop-search-sick.netlify.app)](https://devseop-search-sick.netlify.app)
 - 링크가 실행되지 않는 경우 아래 명령어를 차례대로 입력하여 실행해주세요.
 
-```jsx
+```
 git clone https://github.com/devseop/po-fe-12th-w3
 npm install
-npm run dev
+npm start
 ```
 
 ### 프로젝트 구조
 
-```jsx
+```markdown
 src
  ┣ api
  ┃ ┗ api.ts
@@ -48,7 +48,7 @@ src
 
 ### 사용 라이브러리
 
-```jsx
+```javascript
 "dependencies": {
     "@emotion/styled": "^11.11.0",
     "axios": "^1.4.0",
