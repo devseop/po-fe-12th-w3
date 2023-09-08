@@ -3,7 +3,6 @@ export const API_URL = {
   route: 'sick',
 };
 
-export const KEY_ARROW = {
-  UP: 'ArrowUp',
-  DOWN: 'ArrowDown',
-};
+export const DEBOUNCE_DELAY_TIEM = 250;
+
+export const EXPIREATION_MINUTE = 10;

@@ -1,3 +1,4 @@
+import { EXPIREATION_MINUTE } from '../constants/constant';
 import { ISick } from '../types/type';
 
 interface IParams {
@@ -14,15 +15,10 @@ export const generateCacheKey = (url: string, params: IParams = {}) => {
 };
 
 /** 로컬 캐시에 데이터와 만료 시간을 저장하는 함수 */
-export const setCacheWithExpiration = async (
-  cacheName: string,
-  key: string,
-  data: ISick[],
-  expirationMinutes: number,
-) => {
+export const setCacheWithExpiration = async (cacheName: string, key: string, data: ISick[]) => {
   const currentTime = new Date().getTime();
   /** 현재 시간에 만료 시간을 더하여 유효 시간을 설정 */
-  const expirationTime = currentTime + expirationMinutes * 60 * 1000;
+  const expirationTime = currentTime + EXPIREATION_MINUTE * 60 * 1000; // 유효시간 30분 제한
 
   try {
     const cache = await caches.open(cacheName);
