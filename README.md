@@ -35,7 +35,6 @@ src
  ┃ ┣ useDebounce.ts
  ┃ ┗ useInput.ts
  ┣ pages
- ┃ ┣ ErrorPage.tsx
  ┃ ┗ SearchSection.tsx
  ┣ types
  ┃ ┗ type.ts
