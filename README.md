@@ -124,7 +124,10 @@ src
 API를 호출할 때 마다 `console.info("calling api")` 출력을 통해 콘솔창에서 API 호출 횟수 확인이 가능하도록 설정
 > API 호출 / 호출 실패 / 로컬 캐싱 사용의 목적에 따라 다른 콜솔이 호출됩니다. 실질적으로 API 호출을 요청하는 역할을 담당하는 `api/ts` 파일에 작성했습니다.
 
+<details>
+  <summary>코드 보기</summary>
 https://github.com/devseop/po-fe-12th-w3/blob/d2e8f4a0c89343efa9d88947eb79ee9743f9bdd9/src/api/api.ts#L19-L44
+</details>
 
 ### ✅ Assignment 5
 키보드만으로 추천 검색어들로 이동 가능하도록 구현
