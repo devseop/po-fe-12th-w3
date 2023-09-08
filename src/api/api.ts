@@ -7,14 +7,6 @@ const api = axios.create({
   baseURL: BASE_URL,
 });
 
-/** before local cache */
-// export const fetchSickList = async (query: string): Promise<ISick[]> => {
-//   const encodedQuery = encodeURIComponent(query);
-//   const res = await api.get(`/${API_URL.route}?q=${encodedQuery}`);
-//   console.info('🆘 calling api');
-//   return res.data;
-// };
-
 /** after local cache */
 export const fetchSickList = async (query: string): Promise<ISick[]> => {
   const encodedQuery = encodeURIComponent(query);
