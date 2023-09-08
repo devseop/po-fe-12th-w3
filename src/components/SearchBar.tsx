@@ -5,14 +5,23 @@ import DeleteButton from './DeleteButton';
 
 import { useSearchContext } from '../context/searchContext';
 import { useInput } from '../hooks/useInput';
+interface ISearchBarProps {
+  setSelectedIndex: React.Dispatch<React.SetStateAction<number>>;
+  selectListItemByKeyArrow: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+}
 
-const SearchBar = () => {
+const SearchBar = (props: ISearchBarProps) => {
+  const { setSelectedIndex, selectListItemByKeyArrow } = props;
   const { state } = useSearchContext();
-  const { query } = state;
   const { useInputHandler } = useInput();
+  const { query } = state;
 
   const inputKeywordHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     useInputHandler(e.target.value);
+  };
+
+  const resetSelectedIndex = () => {
+    setSelectedIndex(-1);
   };
 
   return (
@@ -24,6 +33,8 @@ const SearchBar = () => {
           placeholder='질환명을 입력해 주세요.'
           value={query}
           onChange={inputKeywordHandler}
+          onKeyDown={selectListItemByKeyArrow}
+          onClick={resetSelectedIndex}
         />
         {query && <DeleteButton />}
       </SearchBarContainer>

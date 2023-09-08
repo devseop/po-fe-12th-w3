@@ -1,12 +1,31 @@
-import React from 'react';
+import React, { useLayoutEffect, useRef } from 'react';
 import { useSearchContext } from '../context/searchContext';
 import styled from '@emotion/styled';
 import { RiSearchLine } from 'react-icons/ri';
 import HighlitedKeyword from './HighlitedKeyword';
+import { ISick } from '../types/type';
 
-const SearchKeywordList = () => {
+interface ISearchKeywordListProps {
+  selectedIndex: number;
+  setSelectedIndex: React.Dispatch<React.SetStateAction<number>>;
+  selectListItemByKeyArrow: (e: React.KeyboardEvent<HTMLLIElement>) => void;
+}
+
+const SearchKeywordList = (props: ISearchKeywordListProps) => {
+  const { selectedIndex, setSelectedIndex, selectListItemByKeyArrow } = props;
   const { state } = useSearchContext();
   const { query, sickList, isLoading } = state;
+  const liRef = useRef<HTMLLIElement | null>(null);
+
+  useLayoutEffect(() => {
+    if (liRef.current) {
+      liRef.current.focus();
+    }
+  });
+
+  const resetSelectedIndex = (idx: number) => {
+    setSelectedIndex(idx);
+  };
 
   return (
     <>
@@ -20,8 +39,14 @@ const SearchKeywordList = () => {
               ) : sickList[0] === undefined ? (
                 <NoResult>검색 결과가 없습니다. 다른 질환으로 다시 입력해 보세요.</NoResult>
               ) : (
-                sickList.map((sick) => (
-                  <li key={sick.sickCd} tabIndex={0}>
+                sickList.map((sick: ISick, index: number) => (
+                  <li
+                    key={sick.sickCd}
+                    ref={index === selectedIndex ? liRef : null}
+                    tabIndex={selectedIndex === index ? 0 : -1}
+                    onKeyDown={selectListItemByKeyArrow}
+                    onClick={() => resetSelectedIndex(index)}
+                  >
                     <RiSearchLine
                       size={20}
                       color='rgba(0,0,0,0.4)'
@@ -68,7 +93,8 @@ const SuggestKeywordContainer = styled.ul`
     font-weight: 400;
     cursor: pointer;
 
-    &:focus {
+    &:focus,
+    &:focus-visible {
       outline: none;
       background-color: rgba(49, 130, 246, 0.1);
     }
@@ -82,7 +108,7 @@ const SuggestKeywordContainer = styled.ul`
 const SuggestHeader = styled.p`
   font-size: 14px;
   color: rgba(0, 0, 0, 0.4);
-  margin: 8px 16px 2px;
+  margin: 8px 16px 3px;
 `;
 
 const LoadingText = styled.p`
